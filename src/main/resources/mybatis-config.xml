@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE configuration
+  PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-config.dtd">
+<configuration>
+	<settings>
+		<!--是否开启自动驼峰命名规则（camel case）映射，即从经典数据库列名 A_COLUMN 到经典 Java 属性名 aColumn 
+			的类似映射 -->
+		<setting name="mapUnderscoreToCamelCase" value="true"   />
+	</settings>
+	<environments default="development">
+		<environment id="development">
+			<transactionManager type="JDBC" />
+			<dataSource type="POOLED">
+				<property name="driver" value="com.mysql.jdbc.Driver" />
+				<property name="url"
+					value="jdbc:mysql://localhost:3306/pet?autoReconnect=true&amp;useSSL=false" />
+				<property name="username" value="mysql" />
+				<property name="password" value="mysql@571" />
+			</dataSource>
+		</environment> 
+	</environments>
+	<mappers>
+	<package name="com.yqz.webapp.mapper"/>
+		<!-- <mapper resource="mapper/PetMapper.xml" />
+		<mapper resource="mapper/OwnerMapper.xml" /> -->
+	</mappers>
+</configuration>
