@@ -31,7 +31,7 @@
 
     <logger name="com.yqz.simpleWeb" level="DEBUG" />
 
-    <root level="info">
+    <root level="all">
         <appender-ref ref="STDOUT" />
     </root>
 </configuration>
