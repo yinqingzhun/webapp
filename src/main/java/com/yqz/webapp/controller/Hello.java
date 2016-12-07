@@ -7,8 +7,6 @@ import java.util.Calendar;
 import java.util.Date;
 
 import org.springframework.beans.propertyeditors.CustomDateEditor;
-import org.springframework.http.HttpStatus;
-import org.springframework.stereotype.Service;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.*;
@@ -17,11 +15,10 @@ import org.springframework.web.servlet.ModelAndView;
 @RestController
 @RequestMapping("/hello")
 public class Hello {
-
+	@ExceptionHandler(Exception.class)
 	@RequestMapping(value = "/sayHello", method = RequestMethod.GET)
 	public MyMessage sayHello(@RequestParam(value = "message", defaultValue = "你好", required = false) String msg,
 			Model model) {
-
 		if (msg == null || msg.trim().equals(""))
 			return new MyMessage("I say hello.");
 		if (model != null && model.asMap().size() > 0)
