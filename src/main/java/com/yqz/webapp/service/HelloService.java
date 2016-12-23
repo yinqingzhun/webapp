@@ -13,6 +13,8 @@ public class HelloService {
 	private static Logger logger = LoggerFactory.getLogger(HelloService.class);
 
 	public MyMessage sayHello(String msg) {
+		
+		
 		MyMessage message=new MyMessage();
 		if (msg == null || msg.trim().equals(""))
 			message.setMessage("I say hello.");

@@ -5,6 +5,8 @@ import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.concurrent.Callable;
+import java.util.function.Function;
+import java.util.function.LongBinaryOperator;
 
 import javax.annotation.Resource;
 
@@ -39,6 +41,7 @@ public class HelloController {
 
 	@RequestMapping("date/{date}")
 	public String date(@PathVariable Date date) {
+		
 		DateFormat f = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 		return "input date is " + DateFormat.getDateInstance().format(date);
 	}

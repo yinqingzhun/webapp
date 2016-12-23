@@ -83,6 +83,7 @@
 							</manifest>
 						</archive>
 						<archiveClasses>false</archiveClasses>
+						<failOnMissingWebXml>false</failOnMissingWebXml>
 					</configuration>
 				</plugin>
 				<plugin>
