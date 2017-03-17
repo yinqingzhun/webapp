@@ -7,8 +7,8 @@ import org.springframework.context.annotation.FilterType;
 import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurationSupport;
 
-@Configuration
-@ComponentScan(useDefaultFilters=false, excludeFilters = { @Filter(type = FilterType.ANNOTATION, value = EnableWebMvc.class) })
+//@Configuration
+//@ComponentScan(useDefaultFilters=false, excludeFilters = { @Filter(type = FilterType.ANNOTATION, value = EnableWebMvc.class) })
 public class RootConfig {
 	 
 	 

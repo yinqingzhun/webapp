@@ -3,8 +3,10 @@ package com.yqz.webapp.mapper;
 import com.yqz.webapp.dto.Pet;
 import com.yqz.webapp.dto.PetExample;
 import java.util.List;
-import org.apache.ibatis.annotations.Param;
 
+import org.apache.ibatis.annotations.Mapper;
+import org.apache.ibatis.annotations.Param;
+@Mapper
 public interface PetMapper {
     int countByExample(PetExample example);
 
@@ -27,4 +29,6 @@ public interface PetMapper {
     int updateByPrimaryKeySelective(Pet record);
 
     int updateByPrimaryKey(Pet record);
+    
+    List<Pet> getPetList(@Param("pageIndex")int pageIndex,@Param("pageSize") int pageSize) ;
 }

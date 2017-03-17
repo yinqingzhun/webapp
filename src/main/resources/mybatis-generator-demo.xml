@@ -192,7 +192,7 @@
      -->
 
 
-    <tabletableName="userinfo" >
+    <table tableName="userinfo" >
         <!-- 参考 javaModelGenerator 的 constructorBased属性-->
         <propertyname="constructorBased" value="false"/>
         <!-- 默认为false，如果设置为true，在生成的SQL中，table名字不会加上catalog或schema；-->

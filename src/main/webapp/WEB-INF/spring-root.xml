@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans:beans xmlns:mvc="http://www.springframework.org/schema/mvc"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:beans="http://www.springframework.org/schema/beans"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:util="http://www.springframework.org/schema/util"
+	xsi:schemaLocation="http://www.springframework.org/schema/mvc http://www.springframework.org/schema/mvc/spring-mvc-3.0.xsd
+		http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
+		http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-3.1.xsd
+		http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util-4.3.xsd">
+
+	<!-- <context:property-placeholder properties-ref="predefineProperties" 
+		ignore-resource-not-found="true" /> -->
+
+
+	<!-- spring EL ，即#{...} -->
+	<!-- 方式 1 -->
+	<!-- <beans:bean id="predefineProperties" class="org.springframework.beans.factory.config.PropertiesFactoryBean"> 
+		<beans:property name="locations"> <beans:array> <beans:value>classpath:preference.properties</beans:value> 
+		</beans:array> </beans:property> </beans:bean> -->
+	<!-- 方式 2 <util:properties id="predefineProperties" location="classpath:value.properties"></util:properties> -->
+
+	<!-- placeholder ，即${...} -->
+	<!-- <beans:bean class="org.springframework.context.support.PropertySourcesPlaceholderConfigurer"> 
+		<beans:property name="locations"> <beans:array> <beans:value>classpath:preference.properties</beans:value> 
+		</beans:array> </beans:property> <beans:property name="nullValue" value="@null"></begtans:property> 
+		</beans:bean> -->
+
+	<!-- <util:properties id="predefineProperties" location="classpath:preference.properties"></util:properties> -->
+	<!-- <context:property-placeholder location="classpath:jdbc.properties,classpath:preference.properties" 
+		/> -->
+
+	<beans:bean
+		class="org.springframework.context.support.PropertySourcesPlaceholderConfigurer">
+		<beans:property name="locations">
+			<beans:array>
+				<beans:value>classpath:preference.properties</beans:value>
+				<beans:value>classpath:jdbc.properties</beans:value>
+			</beans:array>
+		</beans:property>
+		<beans:property name="nullValue" value="@null"></beans:property>
+		<beans:property name="fileEncoding" value="utf-8"></beans:property>
+	</beans:bean>
+
+	<context:component-scan base-package="com.yqz.webapp"  >
+	<context:exclude-filter type="annotation" expression="org.springframework.stereotype.Controller"/>
+	</context:component-scan>
+	
+</beans:beans>

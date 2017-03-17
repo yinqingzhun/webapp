@@ -1,25 +1,89 @@
-<?xml version="1.0" encoding="UTF-8"?>  
-<beans:beans xmlns="http://www.springframework.org/schema/mvc"  
-    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"  
-    xmlns:beans="http://www.springframework.org/schema/beans"  
-    xmlns:context="http://www.springframework.org/schema/context"  
-    xsi:schemaLocation="http://www.springframework.org/schema/mvc http://www.springframework.org/schema/mvc/spring-mvc-3.0.xsd  
+<?xml version="1.0" encoding="UTF-8"?>
+<beans:beans xmlns="http://www.springframework.org/schema/mvc"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:beans="http://www.springframework.org/schema/beans"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xsi:schemaLocation="http://www.springframework.org/schema/mvc http://www.springframework.org/schema/mvc/spring-mvc-3.0.xsd  
         http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.0.xsd  
-        http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-3.0.xsd">  
-  
-    <!-- DispatcherServlet Context: defines this servlet's request-processing infrastructure -->  
-      
-    <!-- Enables the Spring MVC @Controller programming model -->  
-    <annotation-driven />  
-  
-    <!-- Handles HTTP GET requests for /resources/** by efficiently serving up static resources in the ${webappRoot}/resources directory -->  
-    <resources mapping="/resources/**" location="/resources/" />  
-  
-    <!-- Resolves views selected for rendering by @Controllers to .jsp resources in the /WEB-INF/views directory -->  
-    <beans:bean class="org.springframework.web.servlet.view.InternalResourceViewResolver">  
-        <beans:property name="prefix" value="/WEB-INF/views/" />  
-        <beans:property name="suffix" value=".jsp" />  
-    </beans:bean>  
-      
-    <context:component-scan base-package="com.yqz.webapp" />  
+        http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-3.0.xsd">
+
+	<!-- DispatcherServlet Context: defines this servlet's request-processing 
+		infrastructure -->
+
+
+	<!-- Handles HTTP GET requests for /resources/** by efficiently serving 
+		up static resources in the ${webappRoot}/resources directory -->
+	<resources mapping="/resources/**" location="/resources/" />
+
+	<!-- Resolves views selected for rendering by @Controllers to .jsp resources 
+		in the /WEB-INF/views directory -->
+	<beans:bean
+		class="org.springframework.web.servlet.view.InternalResourceViewResolver">
+		<beans:property name="prefix" value="/WEB-INF/views/" />
+		<beans:property name="suffix" value=".jsp" />
+
+	</beans:bean>
+
+
+	<beans:bean id="requestMappingHandlerMapping"
+		class="org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerMapping">
+		<beans:property name="pathMatcher" ref="antPathMatcher"></beans:property>
+	</beans:bean>
+
+	<beans:bean id="caseInsensitiveRequestParamMethodArgumentResolver"
+		class="com.yqz.webapp.annotation.CaseInsensitiveRequestParamMethodArgumentResolver">
+		<beans:constructor-arg index="0" value="false"></beans:constructor-arg>
+	</beans:bean>
+
+
+
+	<beans:bean id="antPathMatcher" class="org.springframework.util.AntPathMatcher">
+		<beans:property name="caseSensitive" value="false"></beans:property>
+	</beans:bean>
+
+	<beans:bean id="dateFormat" class="java.text.SimpleDateFormat">
+		<beans:constructor-arg index="0"
+			value="yyyy-MM-dd HH:mm:ss"></beans:constructor-arg>
+	</beans:bean>
+	<beans:bean id="objectMapper" class="com.fasterxml.jackson.databind.ObjectMapper">
+		<beans:property name="dateFormat" ref="dateFormat"></beans:property>
+	</beans:bean>
+	<beans:bean id="mappingJackson2HttpMessageConverter"
+		class="org.springframework.http.converter.json.MappingJackson2HttpMessageConverter">
+		<beans:constructor-arg index="0" ref="objectMapper"></beans:constructor-arg>
+	</beans:bean>
+
+	<beans:bean
+		class="org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerAdapter">
+		<beans:property name="messageConverters">
+			<beans:list>
+				<beans:ref bean="mappingJackson2HttpMessageConverter" />
+			</beans:list>
+		</beans:property>
+		<beans:property name="customArgumentResolvers">
+			<beans:list>
+				<beans:ref local="caseInsensitiveRequestParamMethodArgumentResolver" />
+			</beans:list>
+		</beans:property>
+	</beans:bean>
+	
+	<!-- <beans:bean id="myProperties" class="org.springframework.beans.factory.config.PropertiesFactoryBean">
+	<beans:property name="locations">
+			<beans:array>
+				<beans:value>classpath:preference.properties</beans:value>
+				<beans:value>classpath:jdbc.properties</beans:value>
+			</beans:array>
+		</beans:property>
+		<beans:property name="fileEncoding" value="utf-8"></beans:property>
+		
+	</beans:bean>
+	
+	<beans:bean
+		class="org.springframework.context.support.PropertySourcesPlaceholderConfigurer">
+		<beans:property name="properties" ref="myProperties"></beans:property>
+		<beans:property name="nullValue" value="@null"></beans:property>
+	</beans:bean> -->
+
+	<context:component-scan base-package="com.yqz.webapp.controller" />
+	<!-- Enables the Spring MVC @Controller programming model -->
+	<annotation-driven />
 </beans:beans>

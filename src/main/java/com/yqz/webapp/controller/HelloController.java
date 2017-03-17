@@ -5,16 +5,24 @@ import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.concurrent.Callable;
-import java.util.function.Function;
-import java.util.function.LongBinaryOperator;
 
 import javax.annotation.Resource;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.format.annotation.DateTimeFormat;
+import org.springframework.format.annotation.DateTimeFormat.ISO;
+import org.springframework.http.HttpEntity;
+import org.springframework.http.ResponseEntity;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestHeader;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RestController;
 
 import com.yqz.webapp.model.MyMessage;
 import com.yqz.webapp.service.HelloService;
@@ -26,22 +34,41 @@ public class HelloController {
 	@Resource
 	private HelloService helloService;
 
-	// @ExceptionHandler(Exception.class)
-	@RequestMapping(value = "/sayHello", method = RequestMethod.GET)
+	@GetMapping
 	public MyMessage sayHello(@RequestParam(value = "message", defaultValue = "你好", required = false) String msg,
 			Model model) {
-		logger.info("** msg from requester is {} at {} ", msg, DateFormat.getInstance().format(new Date()));
+		logger.info("   msg from requester is {} at {} ", msg, DateFormat.getInstance().format(new Date()));
 		return helloService.sayHello(msg);
 
 	}
-	/*
-	 * @RequestMapping("/msg") public MyMessage getMsg(){ return new
-	 * MyMessage("no message." ); }
-	 */
+
+	@RequestMapping(value = "/addMessage", method = RequestMethod.POST)
+	public MyMessage AddMessage(@RequestBody MyMessage msg) {
+		// save message to database
+		return msg;
+	}
+
+	@RequestMapping(value = { "/msg" },
+			// headers = "Accept=application/xml, application/json",
+			method = RequestMethod.GET)
+	public ResponseEntity<String> getMsg(HttpEntity<String> entity) {
+		/*
+		 * HttpHeaders responseHeaders = new HttpHeaders();
+		 * responseHeaders.setLocation(URI.create("http://www.baidu.com"));
+		 * responseHeaders.set("tel", "1552-554-8448"); return new
+		 * ResponseEntity<String>("Hello World", responseHeaders,
+		 * HttpStatus.CREATED);
+		 */
+
+		// return ResponseEntity.noContent().build();
+
+		return ResponseEntity.ok().header("content-type", "text/plain;charset=utf-8").body("你好,java");
+	}
 
 	@RequestMapping("date/{date}")
-	public String date(@PathVariable Date date) {
-		
+	public String date(@DateTimeFormat(iso = ISO.DATE) @PathVariable Date date, @RequestHeader("Accept") String accept,
+			@RequestBody String body) {
+
 		DateFormat f = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 		return "input date is " + DateFormat.getDateInstance().format(date);
 	}
@@ -52,25 +79,24 @@ public class HelloController {
 	}
 
 	@RequestMapping("/wait")
-	public Callable<String> waits() {
+	public Callable<MyMessage> waits() {
 
-		return new Callable<String>() {
+		return new Callable<MyMessage>() {
 
 			@Override
-			public String call() throws Exception {
+			public MyMessage call() throws Exception {
 				Date d = Calendar.getInstance().getTime();
-				Thread.sleep(5 * 1000); // 暂停两秒
+				Thread.sleep(2000); // 暂停两秒
 
-				return String.format("wait for %s s",
-						(Calendar.getInstance().getTime().getTime() - d.getTime()) / 1000);
+				return new MyMessage(String.format("wait for %s s",
+						(Calendar.getInstance().getTime().getTime() - d.getTime()) / 1000));
 			}
 		};
 	}
 
 	/*
-	 * @InitBinder // 必须有一个参数WebDataBinder public void
-	 * initializeBinder(WebDataBinder binder) {
-	 * binder.registerCustomEditor(Date.class, new CustomDateEditor(new
+	 * @InitBinder // 必须有一个参数 public void initializeBinder(WebDataBinder binder)
+	 * { binder.registerCustomEditor(Date.class, new CustomDateEditor(new
 	 * SimpleDateFormat("yyyy-MM-dd"), false));
 	 * binder.registerCustomEditor(int.class, new PropertyEditorSupport() {
 	 * 

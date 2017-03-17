@@ -41,8 +41,11 @@
 			enableUpdateByExample="false" enableDeleteByExample="true" enableSelectByExample="true" 
 			selectByExampleQueryId="true"> <columnRenamingRule searchString="^D_" replaceString=""/> 
 			<property name="useActualColumnNames" value="true"/> </table> -->
-		<table schema="pet" tableName="owner" domainObjectName="Owner">
-			<property name="useActualColumnNames" value="true" />
+		<table   tableName="ChatMessage" domainObjectName="ChatMessage">
+			<property name="useActualColumnNames" value="false" />
+		</table>
+		<table   tableName="ChatMessageMark" domainObjectName="ChatMessageMark">
+			<property name="useActualColumnNames" value="false" />
 		</table>
 	</context>
 </generatorConfiguration>

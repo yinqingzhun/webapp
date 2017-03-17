@@ -2,9 +2,10 @@ package com.yqz.webapp.config;
 
 import org.springframework.web.servlet.support.AbstractAnnotationConfigDispatcherServletInitializer;
 
-public class SpringWebApplicationInitializer extends AbstractAnnotationConfigDispatcherServletInitializer {
+public class SpringWebApplicationInitializer //extends AbstractAnnotationConfigDispatcherServletInitializer 
+{
 
-	@Override
+	/*@Override
 	protected Class<?>[] getRootConfigClasses() {
 		return new Class<?>[] { RootConfig.class };
 	}
@@ -17,6 +18,6 @@ public class SpringWebApplicationInitializer extends AbstractAnnotationConfigDis
 	@Override
 	protected String[] getServletMappings() {
 		return new String[] { "/" };
-	}
+	}*/
 
 }
